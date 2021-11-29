@@ -1,0 +1,108 @@
+body {
+    .spincount {
+        margin: 40px auto;
+        width: 10%;
+        text-align: center;
+        min-width: fit-content;
+        padding: 3px 20px;
+        border-radius: 100px;
+        background-color: rgb(165, 49, 231);
+        color: azure;
+
+        p {
+            position: relative;
+
+            span {
+                position: absolute;
+                font-size: 16px;
+            }
+        }
+    }
+
+    .spinWheel {
+     
+
+        display: block;
+        width: 50%;
+        min-width: 600px;
+        margin: 20px auto;
+        text-align: center;
+        position: relative;
+
+        // display: flex;
+        // justify-content: center;
+        #btn {
+            width: 70%;
+            left: 0%;
+            position: absolute;
+            z-index: 1;
+            background: none;
+            border: none;
+           
+        }
+        .wheel {
+            width: 500px;
+            height:500px;
+            background-color: brown;
+            border-radius: 50%;
+            border: 15px solid gold;
+            position: relative;
+            overflow: hidden;
+            transition: 2s;
+            display: flex;
+            justify-content: center;
+            left: 7%;
+            top: 70px;
+
+            div {
+                height: 50%;
+                width: 200px;
+                position: absolute;
+                transform-origin: bottom;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                left: 30%;
+
+                .title {
+                    left: 0;
+                    transform: rotate(90 deg) !important;
+                }
+            }
+        }
+    }
+
+    .container {
+        width: 100%;
+        margin: 20px auto;
+
+        .prizebox {
+            width: 60%;
+            margin: 0 auto;
+            bottom: 5%;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+
+            .box {
+                padding: 10px;
+                border-radius: 10px;
+                background-color: rgba(153, 50, 204, 0.479);
+            }
+
+        }
+    }
+
+    footer {
+        text-align: center;
+
+        a {
+            text-decoration: none;
+            color: black;
+            margin: 0 auto;
+        }
+    }
+
+}
