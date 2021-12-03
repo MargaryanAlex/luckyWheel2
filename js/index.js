@@ -95,21 +95,18 @@ function getRandomNumber(min, max) {
 function drawSector(sector, i) {
     const ang = stepAngle * i;
     ctx.save();
-    // COLOR
     ctx.beginPath();
     ctx.fillStyle = sector.bgColor;
     ctx.moveTo(rad, rad);
     ctx.arc(rad, rad, rad, ang, ang + stepAngle);
     ctx.lineTo(rad, rad);
     ctx.fill();
-    // TEXT
     ctx.translate(rad, rad);
     ctx.rotate(ang + stepAngle / 2);
     ctx.textAlign = "right";
     ctx.fillStyle = sector.color;
     ctx.font = "bold 30px sans-serif";
     ctx.fillText(sector.title, rad - 10, 10);
-    //
     ctx.restore();
   };
   function rotate() {
