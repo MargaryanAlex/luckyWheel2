@@ -1,129 +1,143 @@
-const spin = document.getElementById('btn');
-const prizeBox = document.getElementById('prizebox');
-const wheel = document.getElementById('wheel');
-let spincount = document.getElementById('spincount');
-let polygon
-let value;
-let step = 0;
-let freeSpin = 5;
-console.log(wheel);
-
 const prizeArr = [{
         bgColor: "red",
-        color: "",
+        color: "white",
         img: "",
         title: "10"
     },
     {
         bgColor: "orange",
-        color: "",
+        color: "white",
         img: "",
         title: "20"
     },
     {
         bgColor: "white",
-        color: "",
+        color: "black",
         img: "",
         title: "TRY AGAIN"
     },
     {
         bgColor: "red",
-        color: "",
+        color: "white",
         img: "",
         title: "10"
     },
     {
         bgColor: "blue",
-        color: "",
+        color: "white",
         img: "",
         title: "30"
     },
     {
         bgColor: "white",
-        color: "",
+        color: "black",
         img: "",
         title: "TRY AGAIN"
     },
     {
         bgColor: "red",
-        color: "",
+        color: "white",
         img: "",
         title: "10"
     },
     {
         bgColor: "orange",
-        color: "",
+        color: "white",
         img: "",
         title: "20"
     },
     {
         bgColor: "white",
-        color: "",
+        color: "black",
         img: "",
         title: "TRY AGAIN"
     },
     {
         bgColor: "red",
-        color: "",
+        color: "white",
         img: "",
         title: "10"
     },
     {
         bgColor: "blue",
-        color: "",
+        color: "white",
         img: "",
         title: "30"
     },
     {
         bgColor: "white",
-        color: "",
+        color: "black",
         img: "",
         title: "TRY AGAIN"
     },
 ];
-let stepAngle = 360 / prizeArr.length;
-let a = (stepAngle / 2);
-let b = 90 - a;
-let x = Math.abs(Math.sin(a * Math.PI / 180)) / Math.abs(Math.sin(b * Math.PI / 180)) * 127;
-prizeArr.map((i, index) => {
-    polygon = document.createElement("div");
-    polygon.classList.add("polygon");
-    wheel.append(polygon);
-    polygon.style.backgroundColor = i.bgColor;
-    polygon.style.transform = `rotate(${stepAngle*index}deg)`;
-    polygon.innerHTML = `<div class="title" >${i.title} </div>`;
-    polygon.style.clipPath=`polygon(${50+x}% 0, 50% 100%, ${50-x}% 0 )`;
-
-});
-function rotate() {
-    let currentStep = getRandomNumber(0, prizeArr.length);
-    console.log(currentStep);
-    let currentAngle = currentStep * stepAngle
-
-    console.log(currentAngle);
-    spincount.innerHTML = freeSpin--;
-    step += 5 * 360;
-    prizeElement = document.createElement('div');
-    prizeElement.innerHTML = prizeArr[currentStep].title;
-    prizeElement.classList.add('box');
-    wheel.style.transform = `rotate(${currentAngle+step}deg)`;
-};
+const rand = (min, max) => Math.random() * (max - min) + min;
+const tot = prizeArr.length;
+const spin = document.querySelector("#btn");
+const canv = document.querySelector("#wheel")
+const ctx= canv.getContext('2d');
+// canv.width=window.innerWidth
+// canv.height =window.innerHeight
+const dia = ctx.canvas.width;
+const rad = dia /2;
+const circle = 2 * Math.PI;
+const stepAngle = circle / prizeArr.length;
+let rotang = 360/tot
+let angVel = 0; 
+let ang = 0;
+let i;
 function getRandomNumber(min, max) {
-    if (max === undefined)
-        return Math.floor(Math.random() * (min));
-    return Math.floor(Math.random() * (max - min) + min);
-};
-var locked = false;
-spin.addEventListener('click', () => {
-    if (locked) return;
-    locked = true;
-    freeSpin >= 0 ? rotate() : "";
-    setTimeout(function () {
-        prizeBox.append(prizeElement);
-        locked = false;
+        if (max === undefined)
+            return Math.floor(Math.random() * (min));
+        return Math.floor(Math.random() * (max - min) + min);
+    };
+    
+function drawSector(sector, i) {
+    const ang = stepAngle * i;
+    ctx.save();
+    // COLOR
+    ctx.beginPath();
+    ctx.fillStyle = sector.bgColor;
+    ctx.moveTo(rad, rad);
+    ctx.arc(rad, rad, rad, ang, ang + stepAngle);
+    ctx.lineTo(rad, rad);
+    ctx.fill();
+    // TEXT
+    ctx.translate(rad, rad);
+    ctx.rotate(ang + stepAngle / 2);
+    ctx.textAlign = "right";
+    ctx.fillStyle = sector.color;
+    ctx.font = "bold 30px sans-serif";
+    ctx.fillText(sector.title, rad - 10, 10);
+    //
+    ctx.restore();
+  };
+  function rotate() {
+    i=getRandomNumber(0,tot)
 
-    }, 2000);
+    ctx.canvas.style.transform = `rotate(${stepAngle*i}rad)`;
+   console.log(i);
+  }
+  function frame() {
+    if (!angVel) return;
+    angVel *= 0.9; 
+    if (angVel < 0.002) angVel = 0; 
+    ang += angVel; 
+    rotate();
+  }
+  function engine() {
 
+    frame();
+    requestAnimationFrame(engine)
+  }
 
-});
-spincount.innerHTML = freeSpin--;
+  prizeArr.forEach(drawSector)
+  rotate()
+  engine()
+  spin.addEventListener("click",()=>{
+      if (!angVel) angVel=rand(0.25,0.35) 
+ 
+
+  }
+
+  )
